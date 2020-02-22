@@ -16,10 +16,12 @@ from internals.docopt import docopt
 from math import pi
 import pickle
 import re
+import os.path
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version="whatcolor.py 1.0")
-    
+    rootdir = os.path.dirname(os.path.realpath(__file__))
+
     color_regex = re.compile(r"#?([\d\w]{6,})")
     
     try:
@@ -28,6 +30,7 @@ if __name__ == '__main__':
         print("Could not understand color.")
         print("Please make sure it's formatted as either")
         print("#RRGGBB      or      RRGGBB")
+        exit(1)
 
     red = int(rrggbb[0:2], 16) / 255.
     green = int(rrggbb[2:4], 16) / 255.
@@ -51,7 +54,7 @@ if __name__ == '__main__':
         return 0.9 * (min((2.*pi) - abs(a[0] - b[0]), abs(a[0] - b[0])) / 180)**2 + \
             0.05 * (a[1] - b[1])**2 + 0.05 * (a[2] - b[2])**2
 
-    with open("internals/colors.pickle", "rb") as inpickle:
+    with open(f"{rootdir}/internals/colors.pickle", "rb") as inpickle:
         colors = pickle.load(inpickle)
     colors.sort(key=lambda x: color_distance(x[1:4], (hue, saturation, value)))
 
