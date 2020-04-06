@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 echo "Removing whatcolor link..."
 if rm "$HOME/bin/whatcolor"; then
